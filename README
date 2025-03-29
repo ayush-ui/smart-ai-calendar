@@ -1,0 +1,164 @@
+# 📅 Smart AI Calendar Tool
+
+An AI-powered smart scheduling application that helps users automatically generate structured calendar events based on free-text input. Built with React (frontend), Express + TypeScript (backend), and secured using Auth0.
+
+---
+
+## 🚀 Features
+
+- 🔐 User Authentication (Auth0)
+- 🧠 Natural Language Input → Structured Calendar Events (LLM-generated)
+- 📂 View, Update, and Download Calendar (.ics format)
+- 🗃️ Each user's calendars are stored and accessed individually
+- 🧾 Load latest calendar on login
+- 🧲 Local file storage with persistent JSON and ICS files
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend:
+- React (JavaScript)
+- Material UI
+- Auth0 React SDK
+- Axios
+
+### Backend:
+- Node.js + Express (TypeScript)
+- Auth0 Express Middleware (JWT verification)
+- Local file storage (JSON and ICS)
+- OpenRouter.ai API (LLM calls)
+
+---
+
+## 📦 Folder Structure
+
+```bash
+backend/
+├── src/
+│   ├── auth/             # Auth0 middleware & types
+│   ├── controller/       # Route controllers
+│   ├── routes/           # Express route handlers
+│   ├── services/         # LLM, file handling, calendar utils
+│   └── app.ts            # Main Express app
+│   └── server.ts         # Server entry point
+├── calendar_store/       # Per-user calendar JSON files
+├── calendar_files/       # Generated .ics files
+
+frontend/
+├── src/
+│   ├── components/
+│   ├── pages/
+│   │   └── Dashboard.js  # Core calendar UI
+│   └── index.js
+```
+
+---
+
+## 🧪 Local Setup
+
+### ✅ Prerequisites
+
+- Node.js v18+
+- Auth0 Account
+- OpenRouter API Key
+- React + npm setup
+
+---
+
+### 🔧 Backend Setup
+
+```bash
+cd backend
+npm install
+```
+
+Create a `.env` file:
+
+```
+OPENROUTER_API_KEY=your_openrouter_api_key_here
+```
+
+Start the backend:
+
+```bash
+npm run dev
+```
+
+> Runs on `http://localhost:8000`
+
+---
+
+### 🌐 Frontend Setup
+
+```bash
+cd frontend
+npm install
+```
+
+Update `index.js`:
+
+```jsx
+<Auth0Provider
+  domain="YOUR_DOMAIN"
+  clientId="YOUR_CLIENT_ID"
+  authorizationParams={{
+    redirect_uri: window.location.origin,
+    audience: "http://localhost:8000",
+  }}
+>
+```
+
+Start the frontend:
+
+```bash
+npm start
+```
+
+> Runs on `http://localhost:3000`
+
+---
+
+## 🔐 Auth0 Configuration
+
+In the Auth0 dashboard:
+
+1. Go to **Applications → APIs**
+2. Click **Create API**
+   - **Name:** Smart AI Calendar API
+   - **Identifier:** `http://localhost:8000`
+   - **Algorithm:** RS256
+3. Go to your Application Settings and set:
+   - **Callback URL:** `http://localhost:3000`
+   - **Logout URL:** `http://localhost:3000`
+
+---
+
+## 📥 API Endpoints (Protected)
+
+| Method | Endpoint                          | Description                            |
+|--------|-----------------------------------|----------------------------------------|
+| POST   | `/calendar/plan`                  | Generate new calendar                  |
+| GET    | `/calendar/latest`                | Get latest calendar for logged-in user |
+| GET    | `/calendar/view/:id`              | View calendar by ID                    |
+| POST   | `/calendar/update/:id?`           | Update latest calendar (optional ID)   |
+| GET    | `/calendar/download/:id`          | Download calendar `.ics` file          |
+| DELETE | `/calendar/delete_calendar/:id`   | Delete calendar by ID                  |
+
+---
+
+## 🧠 AI Prompting
+
+Used OpenRouter.ai with Gemini 2.5 (`google/gemini-2.5-pro-exp-03-25:free`) to convert user input into structured JSON calendar events.
+
+### Example Output:
+```json
+[
+  {
+    "title": "Team Sync",
+    "start": [2025, 3, 30, 10, 0],
+    "duration": { "hours": 1 },
+    "location": "Zoom"
+  }
+]
+```

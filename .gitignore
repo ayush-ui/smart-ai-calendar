@@ -1,0 +1,40 @@
+# Node modules
+backend/node_modules/
+smart-ai-calendar/node_modules/
+
+# Build and dist folders
+backend/build/
+smart-ai-calendar/build/
+backend/dist/
+
+# Local environment files
+backend/.env
+smart-ai-calendar/.env
+.env
+
+# Auth0 and API keys
+backend/.env.local
+smart-ai-calendar/.env.local
+
+# Logs
+backend/logs/
+*.log
+
+# Calendar-generated files
+backend/calendar_store/
+backend/calendar_files/
+
+# IDE & System files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+.Trashes
+
+# Swap files
+*.swp
+*.swo
+
+# Coverage
+coverage/
+*.lcov
